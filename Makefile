@@ -153,6 +153,30 @@ src/file/block_id.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/block_id.c.s
 .PHONY : src/file/block_id.c.s
 
+src/file/page.o: src/file/page.c.o
+.PHONY : src/file/page.o
+
+# target to build an object file
+src/file/page.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.o
+.PHONY : src/file/page.c.o
+
+src/file/page.i: src/file/page.c.i
+.PHONY : src/file/page.i
+
+# target to preprocess a source file
+src/file/page.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.i
+.PHONY : src/file/page.c.i
+
+src/file/page.s: src/file/page.c.s
+.PHONY : src/file/page.s
+
+# target to generate assembly for a file
+src/file/page.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.s
+.PHONY : src/file/page.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... src/file/block_id.o"
 	@echo "... src/file/block_id.i"
 	@echo "... src/file/block_id.s"
+	@echo "... src/file/page.o"
+	@echo "... src/file/page.i"
+	@echo "... src/file/page.s"
 .PHONY : help
 
 

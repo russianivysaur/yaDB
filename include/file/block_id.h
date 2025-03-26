@@ -4,9 +4,9 @@
 
 typedef struct{
   char* filename;
-  uint32_t number;
+  int number;
 } BlockId;
 
-BlockId* new_block_id(char*,uint32_t);
+BlockId* new_block_id(char*,int);
 
 #endif

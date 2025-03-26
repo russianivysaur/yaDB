@@ -1,14 +1,19 @@
-#include <stdint.h>
 #include <stdlib.h>
 #ifndef PAGE_H
 #define PAGE_H
 
 typedef struct{
-  uint8_t* buffer;
-  size_t size;
+  char* buffer;
+  int size;
 } Page;
 
 
-Page* new_page(size_t);
+typedef struct{
+  char* data;
+  int length;
+} BytesDescriptor;
+
+
+Page* new_page(int);
 
 #endif
