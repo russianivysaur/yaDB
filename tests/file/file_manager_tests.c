@@ -14,6 +14,16 @@ int file_manager_test() {
   return 0;
 }
 
+int append_test() {
+  const int blocksize = 100;
+  file_manager* manager = new_file_manager("dbdir",blocksize);
+  if (manager==NULL) {
+    return -1;
+  }
+  fm_append(manager,"test_file");
+  return 0;
+}
+
 int read_test(){
   const int blocksize = 100;
   file_manager* manager = new_file_manager("dbdir",blocksize);
@@ -22,7 +32,7 @@ int read_test(){
     return -1;
   }
   block_id* block = new_block_id("test_file",1);
-  read(manager,page,block);
+  fm_read(manager,page,block);
   remove(block->filename);
   return 0;
 }
@@ -33,6 +43,9 @@ int main(void){
     return -1;
   }
   if (read_test() != 0) {
+    return -1;
+  }
+  if (append_test() != 0) {
     return -1;
   }
   return 0;

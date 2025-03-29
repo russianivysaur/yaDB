@@ -1,6 +1,7 @@
 #include "../../include/file/file_manager.h"
 #include "../../include/file/block_id.h"
 #include "../../include/file/page.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -26,7 +27,7 @@ FILE* get_file(char* filename) {
   return file;
 }
 
-void read(file_manager* manager,page* page,block_id* block) {
+void fm_read(file_manager* manager,page* page,block_id* block) {
   pthread_mutex_lock(&manager->mutex);
   FILE* file = get_file(block->filename);
   if(file==NULL){
@@ -42,6 +43,38 @@ void read(file_manager* manager,page* page,block_id* block) {
     return;
   }
   pthread_mutex_unlock(&manager->mutex);
+}
+
+// append
+// writes an empty block to the end of file
+block_id* fm_append(file_manager* file_manager,char* filename){
+  FILE* file = get_file(filename);
+  if(file==NULL){
+    return NULL;
+  }
+  page* page = new_page(file_manager->blocksize);
+  if(page==NULL){
+    return NULL;
+  }
+  if(fseek(file,0,SEEK_END) != 0) {
+    perror("seek failed\n");
+    return NULL;
+  }
+  if(fwrite(page->buffer,page->size,1,file) != 0){
+    perror("fwrite failed\n");
+    return NULL;
+  }
+  if(fflush(file) != 0) {
+    perror("fflush failed\n");
+    return NULL;
+  }
+  int fd = fileno(file);
+  if(fsync(fd) != 0){
+    perror("fsync failed\n");
+    return NULL;
+  }
+  block_id* block_id = new_block_id(filename,100);
+  return block_id;
 }
 
 

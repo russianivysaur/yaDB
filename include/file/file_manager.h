@@ -15,8 +15,8 @@ typedef struct{
 
 
 file_manager* new_file_manager(char*,int);
-block_id* append(file_manager*,char*);
-void write(file_manager*,page*,block_id*);
-void read(file_manager*,page*,block_id*);
+block_id* fm_append(file_manager*,char*);
+void fm_write(file_manager*,page*,block_id*);
+void fm_read(file_manager*,page*,block_id*);
 
 #endif
