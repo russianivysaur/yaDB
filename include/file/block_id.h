@@ -7,6 +7,6 @@ typedef struct{
   int number;
 } BlockId;
 
-BlockId* new_block_id(char*,int);
+BlockId* newBlockId(char*,int);
 
 #endif

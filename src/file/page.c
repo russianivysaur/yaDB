@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Page* new_page(int blocksize) {
+Page* newPage(int blocksize) {
   Page* page = (Page*) malloc(sizeof(Page));
   if(page==NULL) return NULL;
   page->buffer = (char*) malloc(blocksize);
@@ -13,12 +13,22 @@ Page* new_page(int blocksize) {
 
 
 int getInt(Page* page,int offset){
-  return (int)(page->buffer[offset]);
+  char valueBytes[sizeof(int)];
+  int value = 0;
+  for(int i=0;i<sizeof(int);i++){
+    value |= page->buffer[offset+i];
+    value << 8;
+  }
+  return value;
 }
 
 void setInt(Page* page,int offset,int value){
-  page->buffer[offset] = value;
+  char* valueBytes = (char*) &value;
+  for(int i=0;i<sizeof(offset);i++){
+    page->buffer[offset+i] = valueBytes[i];
+  }
 }
+
 
 
 // use get Bytes to also read out strings
@@ -32,7 +42,9 @@ BytesDescriptor getBytes(Page* page,int offset){
   return descriptor;
 }
 
-void setBytes(Page* page,char data[],int offset,int length) {
+void setBytes(Page* page,int offset,char* data,int length) {
+  setInt(page,offset,length);
+  offset += sizeof(int);
   if(page->size<offset+length) {
     printf("content exceeds page length\n");
     return;

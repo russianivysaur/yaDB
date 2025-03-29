@@ -14,6 +14,13 @@ typedef struct{
 } BytesDescriptor;
 
 
-Page* new_page(int);
+Page* newPage(int);
+// integer functions
+void setInt(Page*,int,int);
+int getInt(Page*,int);
+
+//byte functions
+void setBytes(Page*,int,char*,int);
+BytesDescriptor getBytes(Page*,int);
 
 #endif

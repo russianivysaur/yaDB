@@ -12,6 +12,6 @@ typedef struct{
 }FileManager;
 
 
-FileManager* new_file_manager();
+FileManager* newFileManager(char*,int);
 
 #endif

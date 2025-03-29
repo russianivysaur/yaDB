@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/bulbasaur/CLionProjects/yadb
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -117,24 +127,37 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named yadb
+# Target rules for targets named block_id_test
 
 # Build rule for target.
-yadb: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 yadb
-.PHONY : yadb
+block_id_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 block_id_test
+.PHONY : block_id_test
 
 # fast build rule for target.
-yadb/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/build
-.PHONY : yadb/fast
+block_id_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/build
+.PHONY : block_id_test/fast
+
+#=============================================================================
+# Target rules for targets named page_test
+
+# Build rule for target.
+page_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 page_test
+.PHONY : page_test
+
+# fast build rule for target.
+page_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/build
+.PHONY : page_test/fast
 
 src/file/block_id.o: src/file/block_id.c.o
 .PHONY : src/file/block_id.o
 
 # target to build an object file
 src/file/block_id.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/block_id.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.o
 .PHONY : src/file/block_id.c.o
 
 src/file/block_id.i: src/file/block_id.c.i
@@ -142,7 +165,7 @@ src/file/block_id.i: src/file/block_id.c.i
 
 # target to preprocess a source file
 src/file/block_id.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/block_id.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.i
 .PHONY : src/file/block_id.c.i
 
 src/file/block_id.s: src/file/block_id.c.s
@@ -150,7 +173,7 @@ src/file/block_id.s: src/file/block_id.c.s
 
 # target to generate assembly for a file
 src/file/block_id.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/block_id.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.s
 .PHONY : src/file/block_id.c.s
 
 src/file/page.o: src/file/page.c.o
@@ -158,7 +181,7 @@ src/file/page.o: src/file/page.c.o
 
 # target to build an object file
 src/file/page.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.o
 .PHONY : src/file/page.c.o
 
 src/file/page.i: src/file/page.c.i
@@ -166,7 +189,7 @@ src/file/page.i: src/file/page.c.i
 
 # target to preprocess a source file
 src/file/page.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.i
 .PHONY : src/file/page.c.i
 
 src/file/page.s: src/file/page.c.s
@@ -174,8 +197,56 @@ src/file/page.s: src/file/page.c.s
 
 # target to generate assembly for a file
 src/file/page.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yadb.dir/build.make CMakeFiles/yadb.dir/src/file/page.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.s
 .PHONY : src/file/page.c.s
+
+tests/file/block_id_tests.o: tests/file/block_id_tests.c.o
+.PHONY : tests/file/block_id_tests.o
+
+# target to build an object file
+tests/file/block_id_tests.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/tests/file/block_id_tests.c.o
+.PHONY : tests/file/block_id_tests.c.o
+
+tests/file/block_id_tests.i: tests/file/block_id_tests.c.i
+.PHONY : tests/file/block_id_tests.i
+
+# target to preprocess a source file
+tests/file/block_id_tests.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/tests/file/block_id_tests.c.i
+.PHONY : tests/file/block_id_tests.c.i
+
+tests/file/block_id_tests.s: tests/file/block_id_tests.c.s
+.PHONY : tests/file/block_id_tests.s
+
+# target to generate assembly for a file
+tests/file/block_id_tests.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/tests/file/block_id_tests.c.s
+.PHONY : tests/file/block_id_tests.c.s
+
+tests/file/page_tests.o: tests/file/page_tests.c.o
+.PHONY : tests/file/page_tests.o
+
+# target to build an object file
+tests/file/page_tests.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/tests/file/page_tests.c.o
+.PHONY : tests/file/page_tests.c.o
+
+tests/file/page_tests.i: tests/file/page_tests.c.i
+.PHONY : tests/file/page_tests.i
+
+# target to preprocess a source file
+tests/file/page_tests.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/tests/file/page_tests.c.i
+.PHONY : tests/file/page_tests.c.i
+
+tests/file/page_tests.s: tests/file/page_tests.c.s
+.PHONY : tests/file/page_tests.s
+
+# target to generate assembly for a file
+tests/file/page_tests.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/tests/file/page_tests.c.s
+.PHONY : tests/file/page_tests.c.s
 
 # Help Target
 help:
@@ -185,13 +256,21 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... yadb"
+	@echo "... test"
+	@echo "... block_id_test"
+	@echo "... page_test"
 	@echo "... src/file/block_id.o"
 	@echo "... src/file/block_id.i"
 	@echo "... src/file/block_id.s"
 	@echo "... src/file/page.o"
 	@echo "... src/file/page.i"
 	@echo "... src/file/page.s"
+	@echo "... tests/file/block_id_tests.o"
+	@echo "... tests/file/block_id_tests.i"
+	@echo "... tests/file/block_id_tests.s"
+	@echo "... tests/file/page_tests.o"
+	@echo "... tests/file/page_tests.i"
+	@echo "... tests/file/page_tests.s"
 .PHONY : help
 
 
