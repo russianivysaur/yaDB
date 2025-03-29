@@ -48,6 +48,7 @@ void fm_read(file_manager* manager,page* page,block_id* block) {
 // append
 // writes an empty block to the end of file
 block_id* fm_append(file_manager* file_manager,char* filename){
+  pthread_mutex_lock(&file_manager->mutex);
   FILE* file = get_file(filename);
   if(file==NULL){
     return NULL;
@@ -73,6 +74,7 @@ block_id* fm_append(file_manager* file_manager,char* filename){
     perror("fsync failed\n");
     return NULL;
   }
+  pthread_mutex_unlock(&file_manager->mutex);
   block_id* block_id = new_block_id(filename,100);
   return block_id;
 }
