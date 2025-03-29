@@ -1,26 +1,25 @@
-#include <stdlib.h>
 #ifndef PAGE_H
 #define PAGE_H
 
 typedef struct{
   char* buffer;
   int size;
-} Page;
+} page;
 
 
 typedef struct{
   char* data;
   int length;
-} BytesDescriptor;
+} bytes_descriptor;
 
 
-Page* newPage(int);
+page* new_page(int);
 // integer functions
-void setInt(Page*,int,int);
-int getInt(Page*,int);
+void set_int(page*,int,int);
+int get_int(page*,int);
 
 //byte functions
-void setBytes(Page*,int,char*,int);
-BytesDescriptor getBytes(Page*,int);
+void set_bytes(page*,int,char*,int);
+bytes_descriptor get_bytes(page*,int);
 
 #endif

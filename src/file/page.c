@@ -1,18 +1,18 @@
-#include "../../include/file/page.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../../include/file/page.h"
 
-Page* newPage(int blocksize) {
-  Page* page = (Page*) malloc(sizeof(Page));
-  if(page==NULL) return NULL;
-  page->buffer = (char*) malloc(blocksize);
-  if(page->buffer == NULL) return NULL;
-  page->size = blocksize;
-  return page;
+page* new_page(int blocksize) {
+  page* new_page = (page*) malloc(sizeof(page));
+  if(new_page==NULL) return NULL;
+  new_page->buffer = (char*) malloc(blocksize);
+  if(new_page->buffer == NULL) return NULL;
+  new_page->size = blocksize;
+  return new_page;
 }
 
 
-int getInt(Page* page,int offset){
+int get_int(page* page,int offset){
   char valueBytes[sizeof(int)];
   int value = 0;
   for(int i=0;i<sizeof(int);i++){
@@ -22,7 +22,7 @@ int getInt(Page* page,int offset){
   return value;
 }
 
-void setInt(Page* page,int offset,int value){
+void set_int(page* page,int offset,int value){
   char* valueBytes = (char*) &value;
   for(int i=0;i<sizeof(offset);i++){
     page->buffer[offset+i] = valueBytes[i];
@@ -33,17 +33,17 @@ void setInt(Page* page,int offset,int value){
 
 // use get Bytes to also read out strings
 
-BytesDescriptor getBytes(Page* page,int offset){
-  int length = getInt(page,offset);
+bytes_descriptor get_bytes(page* page,int offset){
+  int length = get_int(page,offset);
   char buf[length];
-  BytesDescriptor descriptor;
+  bytes_descriptor descriptor;
   descriptor.length = length;
   descriptor.data = &page->buffer[offset + (sizeof(int))];
   return descriptor;
 }
 
-void setBytes(Page* page,int offset,char* data,int length) {
-  setInt(page,offset,length);
+void set_bytes(page* page,int offset,char* data,int length) {
+  set_int(page,offset,length);
   offset += sizeof(int);
   if(page->size<offset+length) {
     printf("content exceeds page length\n");
@@ -55,6 +55,6 @@ void setBytes(Page* page,int offset,char* data,int length) {
 }
 
 
-static int maxLength(int strLen){
+static int max_length(int strLen){
   return strLen;
 }

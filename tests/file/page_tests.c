@@ -1,10 +1,11 @@
 #include "../../include/file/page.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-int newPageTest() {
+int newpageTest() {
   int blocksize = 100;
-  Page* page = newPage(blocksize);
+  page* page = new_page(blocksize);
   if(page==NULL){
     return -1;
   }
@@ -17,14 +18,14 @@ int newPageTest() {
 
 int setIntTest() {
   int blocksize = 100;
-  Page* page = newPage(blocksize);
+  page* page = new_page(blocksize);
   if(page==NULL){
     return -1;
   }
   int val = 10;
   int offset = 50;
-  setInt(page,offset,val);
-  int value = getInt(page,offset);
+  set_int(page,offset,val);
+  int value = get_int(page,offset);
   if(value != val){
     return -1;
   }
@@ -35,14 +36,14 @@ int setIntTest() {
 
 int setBytesTest() {
   int blocksize = 100;
-  Page* page = newPage(blocksize);
+  page* page = new_page(blocksize);
   if(page==NULL){
     return -1;
   }
   char data[] = "Ankit\n";
   int offset = 10;
-  setBytes(page,offset,data,strlen(data));
-  BytesDescriptor descriptor = getBytes(page,offset);
+  set_bytes(page,offset,data,strlen(data));
+  bytes_descriptor descriptor = get_bytes(page,offset);
   if(descriptor.length != strlen(data)){
     printf("Bytes length does not match\n");
     return -1;
@@ -59,7 +60,7 @@ int setBytesTest() {
 }
 
 int main(void){
-  if(newPageTest()!=0){
+  if(newpageTest()!=0){
     return -1;
   }
   if(setIntTest()!=0){

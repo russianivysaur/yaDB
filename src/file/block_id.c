@@ -2,8 +2,8 @@
 #include <string.h>
 #include "../../include/file/block_id.h"
 
-BlockId* newBlockId(char* filename,int number){
-  BlockId* block = (BlockId*)malloc(sizeof(BlockId));
+block_id* new_block_id(char* filename,int number){
+  block_id* block = (block_id*)malloc(sizeof(block_id));
   if(block==NULL){
     return NULL;
   }
@@ -13,7 +13,7 @@ BlockId* newBlockId(char* filename,int number){
 }
 
 
-int equals(BlockId* block1,BlockId* block2) {
+int equals(block_id* block1,block_id* block2) {
   return strcmp(block1->filename,block2->filename) && block1->number == block2->number;
 }
 

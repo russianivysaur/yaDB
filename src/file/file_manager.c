@@ -1,21 +1,23 @@
 #include "../../include/file/file_manager.h"
-#include "../../include/lib/hashmap.h"
 #include "../../include/file/block_id.h"
 #include "../../include/file/page.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
 
-FileManager* newFileManager(char* dbDirectory,int blocksize){
-  FileManager* fileManager = (FileManager*)malloc(sizeof(FileManager));
-  fileManager->blocksize = blocksize;
-  fileManager->isNew = 1;
-  fileManager->openFiles = new_hashmap();
-  return fileManager;
+file_manager* new_file_manager(char* dbDirectory,int blocksize){
+  file_manager* manager = (file_manager*) malloc(sizeof(file_manager));
+  manager->blocksize = blocksize;
+  manager->is_new = 1;
+  if(pthread_mutex_init(&manager->mutex,NULL)!=0){
+    printf("Cannot init mutex\n");
+    return NULL;
+  }
+  return manager;
 }
 
 
-FILE* getFile(char* filename) {
+FILE* get_file(char* filename) {
   FILE* file = fopen(filename,"a+");
   if(file==NULL){
     perror("Error opening file");
@@ -24,8 +26,9 @@ FILE* getFile(char* filename) {
   return file;
 }
 
-void read(BlockId* block,Page* page) {
-  FILE* file = getFile(block->filename);
+void read(file_manager* manager,page* page,block_id* block) {
+  pthread_mutex_lock(&manager->mutex);
+  FILE* file = get_file(block->filename);
   if(file==NULL){
     perror("getFile Error\n");
     return;
@@ -38,11 +41,12 @@ void read(BlockId* block,Page* page) {
     perror("Error reading file");
     return;
   }
+  pthread_mutex_unlock(&manager->mutex);
 }
 
 
 int length(char* filename){
-  FILE* file = getFile(filename);
+  FILE* file = get_file(filename);
   if(file==NULL){
     perror("getFile error");
     return -1;

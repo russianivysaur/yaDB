@@ -152,12 +152,26 @@ page_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/build
 .PHONY : page_test/fast
 
+#=============================================================================
+# Target rules for targets named file_manager_test
+
+# Build rule for target.
+file_manager_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 file_manager_test
+.PHONY : file_manager_test
+
+# fast build rule for target.
+file_manager_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/build
+.PHONY : file_manager_test/fast
+
 src/file/block_id.o: src/file/block_id.c.o
 .PHONY : src/file/block_id.o
 
 # target to build an object file
 src/file/block_id.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/block_id.c.o
 .PHONY : src/file/block_id.c.o
 
 src/file/block_id.i: src/file/block_id.c.i
@@ -166,6 +180,7 @@ src/file/block_id.i: src/file/block_id.c.i
 # target to preprocess a source file
 src/file/block_id.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/block_id.c.i
 .PHONY : src/file/block_id.c.i
 
 src/file/block_id.s: src/file/block_id.c.s
@@ -174,7 +189,32 @@ src/file/block_id.s: src/file/block_id.c.s
 # target to generate assembly for a file
 src/file/block_id.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/src/file/block_id.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/block_id.c.s
 .PHONY : src/file/block_id.c.s
+
+src/file/file_manager.o: src/file/file_manager.c.o
+.PHONY : src/file/file_manager.o
+
+# target to build an object file
+src/file/file_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/file_manager.c.o
+.PHONY : src/file/file_manager.c.o
+
+src/file/file_manager.i: src/file/file_manager.c.i
+.PHONY : src/file/file_manager.i
+
+# target to preprocess a source file
+src/file/file_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/file_manager.c.i
+.PHONY : src/file/file_manager.c.i
+
+src/file/file_manager.s: src/file/file_manager.c.s
+.PHONY : src/file/file_manager.s
+
+# target to generate assembly for a file
+src/file/file_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/file_manager.c.s
+.PHONY : src/file/file_manager.c.s
 
 src/file/page.o: src/file/page.c.o
 .PHONY : src/file/page.o
@@ -182,6 +222,7 @@ src/file/page.o: src/file/page.c.o
 # target to build an object file
 src/file/page.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/page.c.o
 .PHONY : src/file/page.c.o
 
 src/file/page.i: src/file/page.c.i
@@ -190,6 +231,7 @@ src/file/page.i: src/file/page.c.i
 # target to preprocess a source file
 src/file/page.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/page.c.i
 .PHONY : src/file/page.c.i
 
 src/file/page.s: src/file/page.c.s
@@ -198,6 +240,7 @@ src/file/page.s: src/file/page.c.s
 # target to generate assembly for a file
 src/file/page.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/page_test.dir/build.make CMakeFiles/page_test.dir/src/file/page.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/src/file/page.c.s
 .PHONY : src/file/page.c.s
 
 tests/file/block_id_tests.o: tests/file/block_id_tests.c.o
@@ -223,6 +266,30 @@ tests/file/block_id_tests.s: tests/file/block_id_tests.c.s
 tests/file/block_id_tests.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/block_id_test.dir/build.make CMakeFiles/block_id_test.dir/tests/file/block_id_tests.c.s
 .PHONY : tests/file/block_id_tests.c.s
+
+tests/file/file_manager_tests.o: tests/file/file_manager_tests.c.o
+.PHONY : tests/file/file_manager_tests.o
+
+# target to build an object file
+tests/file/file_manager_tests.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/tests/file/file_manager_tests.c.o
+.PHONY : tests/file/file_manager_tests.c.o
+
+tests/file/file_manager_tests.i: tests/file/file_manager_tests.c.i
+.PHONY : tests/file/file_manager_tests.i
+
+# target to preprocess a source file
+tests/file/file_manager_tests.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/tests/file/file_manager_tests.c.i
+.PHONY : tests/file/file_manager_tests.c.i
+
+tests/file/file_manager_tests.s: tests/file/file_manager_tests.c.s
+.PHONY : tests/file/file_manager_tests.s
+
+# target to generate assembly for a file
+tests/file/file_manager_tests.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_manager_test.dir/build.make CMakeFiles/file_manager_test.dir/tests/file/file_manager_tests.c.s
+.PHONY : tests/file/file_manager_tests.c.s
 
 tests/file/page_tests.o: tests/file/page_tests.c.o
 .PHONY : tests/file/page_tests.o
@@ -258,16 +325,23 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... block_id_test"
+	@echo "... file_manager_test"
 	@echo "... page_test"
 	@echo "... src/file/block_id.o"
 	@echo "... src/file/block_id.i"
 	@echo "... src/file/block_id.s"
+	@echo "... src/file/file_manager.o"
+	@echo "... src/file/file_manager.i"
+	@echo "... src/file/file_manager.s"
 	@echo "... src/file/page.o"
 	@echo "... src/file/page.i"
 	@echo "... src/file/page.s"
 	@echo "... tests/file/block_id_tests.o"
 	@echo "... tests/file/block_id_tests.i"
 	@echo "... tests/file/block_id_tests.s"
+	@echo "... tests/file/file_manager_tests.o"
+	@echo "... tests/file/file_manager_tests.i"
+	@echo "... tests/file/file_manager_tests.s"
 	@echo "... tests/file/page_tests.o"
 	@echo "... tests/file/page_tests.i"
 	@echo "... tests/file/page_tests.s"
