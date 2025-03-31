@@ -4,7 +4,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <fcntl.h>
 #include <stdio.h>
+#include <sys/stat.h>
 
 file_manager* new_file_manager(char* dbDirectory,int blocksize){
   file_manager* manager = (file_manager*) malloc(sizeof(file_manager));
@@ -18,28 +20,58 @@ file_manager* new_file_manager(char* dbDirectory,int blocksize){
 }
 
 
-FILE* get_file(char* filename) {
-  FILE* file = fopen(filename,"a+");
-  if(file==NULL){
+int get_fd(char* filename) {
+  int fd = open(filename,O_CREAT|O_RDWR,0666);
+  if(fd<0){
     perror("Error opening file");
-    return NULL;
+    return -1;
   }
-  return file;
+  return fd;
+}
+
+int fm_length(char* filename){
+  int fd = get_fd(filename);
+  struct stat file_stat;
+  if(fd<0){
+    perror("getFile error");
+    return -1;
+  }
+  if(fstat(fd,&file_stat) != 0){
+    perror("Stat error\n");
+    return -1;
+  }
+  return file_stat.st_size;
+}
+
+
+void fm_write(file_manager* manager,page* page,block_id* block) {
+  pthread_mutex_lock(&manager->mutex);
+  int fd = get_fd(block->filename);
+  if(fd < 0){
+    perror("could not open file\n");
+    return;
+  }
+  lseek(fd,0,SEEK_SET);
+  size_t n = write(fd,page->buffer,manager->blocksize);
+  if(n != manager->blocksize) {
+    perror("write failed\n");
+    return;
+  }
+  pthread_mutex_unlock(&manager->mutex);
 }
 
 void fm_read(file_manager* manager,page* page,block_id* block) {
   pthread_mutex_lock(&manager->mutex);
-  FILE* file = get_file(block->filename);
-  if(file==NULL){
+  const int fd = get_fd(block->filename);
+  if(fd<0){
     perror("getFile Error\n");
     return;
   }
-  if(fseek(file,0,SEEK_SET) != 0){
-    perror("Error seeking file");
-    return;
-  }
-  if(fread(page->buffer,page->size,1,file) != 0){
-    perror("Error reading file");
+  lseek(fd,0,SEEK_SET);
+  int n = read(fd,page->buffer,manager->blocksize);
+  if(n != manager->blocksize){
+    printf("read %d bytes\n",n);
+    perror("Error reading file\n");
     return;
   }
   pthread_mutex_unlock(&manager->mutex);
@@ -48,28 +80,23 @@ void fm_read(file_manager* manager,page* page,block_id* block) {
 // append
 // writes an empty block to the end of file
 block_id* fm_append(file_manager* file_manager,char* filename){
+  int size = fm_length(filename);
   pthread_mutex_lock(&file_manager->mutex);
-  FILE* file = get_file(filename);
-  if(file==NULL){
+  const int fd = get_fd(filename);
+  if(fd < 0){
     return NULL;
   }
   page* page = new_page(file_manager->blocksize);
   if(page==NULL){
     return NULL;
   }
-  if(fseek(file,0,SEEK_END) != 0) {
-    perror("seek failed\n");
+  lseek(fd,size,SEEK_SET);
+  int n = write(fd,page->buffer,file_manager->blocksize);
+  if(n != file_manager->blocksize){
+    printf("%d %d\n",n,file_manager->blocksize);
+    perror("fwrite failed in fm_append\n");
     return NULL;
   }
-  if(fwrite(page->buffer,page->size,1,file) != 0){
-    perror("fwrite failed\n");
-    return NULL;
-  }
-  if(fflush(file) != 0) {
-    perror("fflush failed\n");
-    return NULL;
-  }
-  int fd = fileno(file);
   if(fsync(fd) != 0){
     perror("fsync failed\n");
     return NULL;
@@ -77,18 +104,4 @@ block_id* fm_append(file_manager* file_manager,char* filename){
   pthread_mutex_unlock(&file_manager->mutex);
   block_id* block_id = new_block_id(filename,100);
   return block_id;
-}
-
-
-int length(char* filename){
-  FILE* file = get_file(filename);
-  if(file==NULL){
-    perror("getFile error");
-    return -1;
-  }
-  if(fseek(file,0,SEEK_END) != 0){
-    perror("Seek failed");
-    return -1;
-  }
-  return ftell(file);
 }

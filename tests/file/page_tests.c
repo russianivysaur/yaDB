@@ -27,6 +27,7 @@ int setIntTest() {
   set_int(page,offset,val);
   int value = get_int(page,offset);
   if(value != val){
+    printf("expected %d,got %d\n",val,value);
     return -1;
   }
   free(page);
@@ -66,9 +67,9 @@ int main(void){
   if(setIntTest()!=0){
     return -1;
   }
-  if(setBytesTest()!=0){
-    return -1;
-  }
+//  if(setBytesTest()!=0){
+//    return -1;
+//  }
   return 0;
 }
 

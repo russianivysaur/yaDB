@@ -11,21 +11,27 @@ page* new_page(int blocksize) {
   return new_page;
 }
 
-
+// assume integer is stored as 4 bytes
 int get_int(page* page,int offset){
-  char valueBytes[sizeof(int)];
   int value = 0;
+  unsigned char read_value = 0;
+  int map = 0xfffffff;
   for(int i=0;i<sizeof(int);i++){
-    value |= page->buffer[offset+i];
-    value << 8;
+    printf("%d\n",i);
+    int mask = 0;
+    read_value = page->buffer[offset+i];
+    mask |= read_value;
+    mask = mask << (24 - (8*i));
+    value |= mask;
   }
   return value;
 }
 
 void set_int(page* page,int offset,int value){
-  char* valueBytes = (char*) &value;
-  for(int i=0;i<sizeof(offset);i++){
-    page->buffer[offset+i] = valueBytes[i];
+  for(int i=offset+sizeof(int)-1;i>=offset;i--){
+    printf("writing %2x at %d\n",value,i);
+    page->buffer[i] = value;
+    value >>= 8;
   }
 }
 
