@@ -11,18 +11,14 @@ page* new_page(int blocksize) {
   return new_page;
 }
 
-// assume integer is stored as 4 bytes
+
 int get_int(page* page,int offset){
   int value = 0;
-  unsigned char read_value = 0;
-  int map = 0xfffffff;
   for(int i=0;i<sizeof(int);i++){
-    printf("%d\n",i);
-    int mask = 0;
-    read_value = page->buffer[offset+i];
-    mask |= read_value;
-    mask = mask << (24 - (8*i));
-    value |= mask;
+    printf("reading %2x at %d\n",(unsigned char)page->buffer[offset+i],i);
+    value |= (0x000000ff & page->buffer[offset+i]);
+    value = value<<(24 - (8*i));
+    printf("%d",value);
   }
   return value;
 }

@@ -22,7 +22,7 @@ int setIntTest() {
   if(page==NULL){
     return -1;
   }
-  int val = 10;
+  int val = 200;
   int offset = 50;
   set_int(page,offset,val);
   int value = get_int(page,offset);

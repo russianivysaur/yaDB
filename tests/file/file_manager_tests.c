@@ -63,14 +63,12 @@ int append_read_write_read_test() {
   // check if the page has valid content
   page1 = new_page(file_manager->blocksize);
   fm_read(file_manager,page1,new_block);
-  int actual = get_int(page1,0);
+  const int actual = get_int(page1,0);
   if (actual != test_val) {
     printf("expected %d, got %d\n",test_val,actual);
     return -1;
   }
-  free(page1->buffer);
   free(page1);
-  free(new_block->filename);
   free(new_block);
   free(file_manager);
   return 0;
