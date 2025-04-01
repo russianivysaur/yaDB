@@ -1,12 +1,14 @@
 #include "../../include/file/file_manager.h"
 #include "../../include/file/block_id.h"
 #include "../../include/file/page.h"
+#include "../../include/lib/hashmap.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/stat.h>
+#include <string.h>
 
 file_manager* new_file_manager(char* dbDirectory,int blocksize){
   file_manager* manager = (file_manager*) malloc(sizeof(file_manager));
@@ -20,7 +22,7 @@ file_manager* new_file_manager(char* dbDirectory,int blocksize){
 }
 
 
-int get_fd(char* filename) {
+int get_fd(file_manager* manager,char* filename) {
   int fd = open(filename,O_CREAT|O_RDWR,0666);
   if(fd<0){
     perror("Error opening file");
@@ -29,8 +31,8 @@ int get_fd(char* filename) {
   return fd;
 }
 
-int fm_length(char* filename){
-  int fd = get_fd(filename);
+int fm_length(file_manager* manager,char* filename){
+  int fd = get_fd(manager,filename);
   struct stat file_stat;
   if(fd<0){
     perror("getFile error");
@@ -46,7 +48,7 @@ int fm_length(char* filename){
 
 void fm_write(file_manager* manager,page* page,block_id* block) {
   pthread_mutex_lock(&manager->mutex);
-  int fd = get_fd(block->filename);
+  int fd = get_fd(manager,block->filename);
   if(fd < 0){
     perror("could not open file\n");
     return;
@@ -62,7 +64,7 @@ void fm_write(file_manager* manager,page* page,block_id* block) {
 
 void fm_read(file_manager* manager,page* page,block_id* block) {
   pthread_mutex_lock(&manager->mutex);
-  const int fd = get_fd(block->filename);
+  const int fd = get_fd(manager,block->filename);
   if(fd<0){
     perror("getFile Error\n");
     return;
@@ -80,9 +82,9 @@ void fm_read(file_manager* manager,page* page,block_id* block) {
 // append
 // writes an empty block to the end of file
 block_id* fm_append(file_manager* file_manager,char* filename){
-  int size = fm_length(filename);
+  int size = fm_length(file_manager,filename);
   pthread_mutex_lock(&file_manager->mutex);
-  const int fd = get_fd(filename);
+  const int fd = get_fd(file_manager,filename);
   if(fd < 0){
     return NULL;
   }

@@ -1,6 +1,6 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
-#include <stdlib.h>
+#include <stddef.h>
 typedef struct {
   int len;
   void** data;
@@ -9,7 +9,7 @@ typedef struct {
 
 
 hashmap* new_hashmap(int);
-void put(hashmap*,void*,size_t,void*);
+void put(hashmap*,void*,size_t,void*,size_t);
 void* get(hashmap*,void*,size_t);
 
 #endif
